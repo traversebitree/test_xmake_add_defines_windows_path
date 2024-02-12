@@ -1,0 +1,41 @@
+name: test_xmake_add_defines_windows_path
+
+on:
+  - push
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        version: [branch@dev]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: xmake-io/github-action-setup-xmake@master
+        with:
+          xmake-version: ${{ matrix.version }}
+      - name: Run setup xmake and test
+        run: |
+          xmake --version
+
+      - name: Test build
+        working-directory: ${{ github.workspace }}
+        # continue-on-error: true
+        run: |
+          xmake
+
+      - name: Test run
+        working-directory: ${{ github.workspace }}
+        # continue-on-error: true
+        run: |
+          xmake run test_xmake_add_defines_windows_path
