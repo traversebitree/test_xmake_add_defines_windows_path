@@ -7,6 +7,6 @@ target("test_xmake_add_defines_windows_path")
     add_defines("TEST_PATH_1=\"$(projectdir)\"")
 
     local model_path= "$(projectdir)"
-    add_defines("TEST_PATH_2=\"" .. model_path:gsub("\\", "\\\\") .. "\"")
+    add_defines("TEST_PATH_2=\"" .. os.projectdir():gsub("\\", "\\\\") .. "\"")
 
     add_defines("TEST_PATH_3=\"" .. path.absolute("./"):gsub("\\", "\\\\") .. "\"")
